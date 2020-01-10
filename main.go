@@ -2,7 +2,8 @@ package main
 
 func main() {
 
-	fruits := createFruitsFromFile("fruits.txt")
+	fruits := newFruits()
 	fruits.print()
-	
+	fruits.mixBowl()
+	fruits.print()
 }

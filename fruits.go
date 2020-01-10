@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"strings"
 	"io/ioutil"
+	"math/rand"
+	"time"
 )
 	// - Type of data: 'fruits' extends 'slice' (array with not fixed length);
 type fruits [] string
 
-/* - By convention go used 'first letter' of the type of data that this functions is going to receive.
+/* - By convention go used 'first letter' of the type of data when is defining var in funcs
 	 - Receiver function, the () in the beginning is telling the function that any var of type 'fruits' have access to this function and
 			uses that data. 
 	 - Declaration and assignment (:=) of variable. go detects the type of content in this case.
@@ -40,7 +42,7 @@ func newFruits() fruits {
 }
 
 /*
-	- Double return from function, this is defined in the second ()
+	- Double return from function, this is defined in the second (type, type)
 	- Slice support the return of elements based on the index passed to the [], discription: [fromIndex, toIndex]
 */
 func deal(f fruits, quantity int) (fruits, fruits){
@@ -76,4 +78,17 @@ func createFruitsFromFile(fileName string) fruits {
 	fmt.Println("Succesfull reading, returning fruits")
 	
 	return fruits(strings.Split(string(file), ","))
+}
+
+/*
+	- A new rand struc is created because its need a new source each time to generate different numbers.
+*/
+func (f fruits) mixBowl(){
+	source := rand.NewSource(time.Now().UnixNano())
+	newRand := rand.New(source)
+
+	for i := range f {
+		newPosition := newRand.Intn(len(f)-1)
+		f[i] , f[newPosition] = f[newPosition], f[i]
+	}
 }
